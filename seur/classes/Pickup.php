@@ -37,7 +37,7 @@ class Pickup extends ObjectModel
 			try
 			{
 				$sc_options = array(
-					"connection_timeout" => 30
+					'connection_timeout' => 30
 				);
 
 				$soap_client = new SoapClient((string)Configuration::get('SEUR_URLWS_R'), $sc_options);
@@ -51,8 +51,8 @@ class Pickup extends ObjectModel
 
 				$plano = '
 					<recogida>
-						<usuario>'.SEUR_WS_USERNAME.'</usuario>
-						<password>'.SEUR_WS_PASSWORD.'</password>
+						<usuario>'.Configuration::get('SEUR_WS_USERNAME').'</usuario>
+						<password>'.Configuration::get('SEUR_WS_PASSWORD').'</password>
 						<razonSocial>'.pSQL($merchant_data['company_name']).'</razonSocial>
 						<nombreEmpresa>'.pSQL($merchant_data['company_name']).'</nombreEmpresa>
 						<nombreContactoOrdenante>'.pSQL($merchant_data['name']).'</nombreContactoOrdenante>
@@ -80,14 +80,14 @@ class Pickup extends ObjectModel
 						<mesRecogida>'.date('m').'</mesRecogida>
 						<anioRecogida>'.date('Y').'</anioRecogida>
 						<servicio>1</servicio>
-						<horaMananaDe>10:00</horaMananaDe>
-						<horaMananaA>14:00</horaMananaA>
+						<horaMananaDe></horaMananaDe>
+						<horaMananaA></horaMananaA>
 						<numeroBultos>1</numeroBultos>
 						<mercancia>2</mercancia>
 						<horaTardeDe>16:00</horaTardeDe>
 						<horaTardeA>20:00</horaTardeA>
 						<tipoPorte>P</tipoPorte>
-						<observaciones>PRUEBAS DE WWW.4WEBS.ES PARA CONECTOR PRESTASHOP</observaciones>
+						<observaciones></observaciones>
 						<tipoAviso>EMAIL</tipoAviso>
 						<idiomaContactoOrdenante>'.pSQL($merchant_data['country']).'</idiomaContactoOrdenante>
 
@@ -161,7 +161,7 @@ class Pickup extends ObjectModel
 			catch (PrestaShopException $e)
 			{
 				$e->displayMessage();
-			} 
+			}
 		}
 		else
 		{
@@ -169,8 +169,8 @@ class Pickup extends ObjectModel
 			$module_instance->adminDisplayWarning($module_instance->l('Pickups after 2pm cannot be arranged via module, contact us by phone to arrange it manually.'));
 		}
 	}
-        
-	private static function insertPickup($localizer,$numPickup,$tasacion)
+
+	private static function insertPickup($localizer, $numPickup, $tasacion)
 	{
 		return Db::getInstance()->Execute('
 			INSERT INTO `'._DB_PREFIX_.'seur_pickup`
@@ -186,7 +186,7 @@ class Pickup extends ObjectModel
 			SELECT *
 			FROM `'._DB_PREFIX_.'seur_pickup`
 			ORDER BY `id_seur_pickup` DESC
-		'); 
+		');
 
 		return ($pickup_data ? $pickup_data : '');
 	}

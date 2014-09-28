@@ -29,7 +29,7 @@ class RealexRedirect extends PaymentModule
 	{
 		$this->name = 'realexredirect';
 		$this->tab = 'payments_gateways';
-		$this->version = '1.7';
+		$this->version = '1.8.1';
 		$this->author = 'Coccinet';
 		$this->bout_valide = $this->l('Pay Now');
 		$this->bout_suppr = $this->l('Do you want to delete your stored card ?');
@@ -374,8 +374,8 @@ class RealexRedirect extends PaymentModule
 		elseif ($this->liability == '1')
 			$checked_liability_yes = "checked='checked'";
 		elseif ($this->liability == '0')
-			$checked_liability_no = "checked='checked'";		
-		
+			$checked_liability_no = "checked='checked'";
+
 		if (Configuration::get('PS_SSL_ENABLED'))
 			$link_request = Tools::getShopDomainSsl(true, true).__PS_BASE_URI__.'module/'.$this->name.'/payment';
 		else
@@ -433,7 +433,7 @@ class RealexRedirect extends PaymentModule
 						$this->html .= '<tr><td style="padding:5px;"><strong>'.$this->l('Cards').':</strong></td><td>';
 						$this->html .= '<input type="checkbox" value="VISA" name="type_card[]" /> Visa - ';
 						$this->html .= '<input type="checkbox" value="MC" name="type_card[]"/> MasterCard - ';
-						$this->html .= '<input type="checkbox" value="LASER" name="type_card[]"/> Laser - ';
+						$this->html .= '<input type="checkbox" value="MC" name="type_card[]"/> Maestro - ';
 						$this->html .= '<input type="checkbox" value="SWITCH" name="type_card[]"/> Switch - ';
 						$this->html .= '<input type="checkbox" value="AMEX" name="type_card[]"/> American Express - ';
 						$this->html .= '<input type="checkbox" value="DELTA" name="type_card[]"/> Delta - ';
@@ -709,7 +709,7 @@ class RealexRedirect extends PaymentModule
 						$check = "checked='checked'";
 						$check_visa = (in_array('VISA', $tab_card))?$check:'';
 						$check_mc = (in_array('MC', $tab_card))?$check:'';
-						$check_laser = (in_array('LASER', $tab_card))?$check:'';
+						$check_maestro = (in_array('MAESTRO', $tab_card))?$check:'';
 						$check_switch = (in_array('SWITCH', $tab_card))?$check:'';
 						$check_amex = (in_array('AMEX', $tab_card))?$check:'';
 						$check_delta = (in_array('DELTA', $tab_card))?$check:'';
@@ -717,7 +717,7 @@ class RealexRedirect extends PaymentModule
 						$check_solo = (in_array('SOLO', $tab_card))?$check:'';
 						$edit .= '<input type="checkbox" value="VISA" name="type_card[]" '.$check_visa.'/> Visa - ';
 						$edit .= '<input type="checkbox" value="MC" name="type_card[]" '.$check_mc.'/> MasterCard - ';
-						$edit .= '<input type="checkbox" value="LASER" name="type_card[]" '.$check_laser.'/> Laser - ';
+						$edit .= '<input type="checkbox" value="MAESTRO" name="type_card[]" '.$check_maestro.'/> Maestro - ';
 						$edit .= '<input type="checkbox" value="SWITCH" name="type_card[]" '.$check_switch.'/> Switch - ';
 						$edit .= '<input type="checkbox" value="AMEX" name="type_card[]" '.$check_amex.'/> American Express - ';
 						$edit .= '<input type="checkbox" value="DELTA" name="type_card[]" '.$check_delta.'/> Delta - ';
@@ -820,7 +820,7 @@ class RealexRedirect extends PaymentModule
 				$xml .= "<autosettle flag='$autosettle' />";
 			$xml .= "<payerref>$payerref</payerref>
 			<paymentmethod>$paymentmethod</paymentmethod>
-			<sha1hash>$sha1hash</sha1hash>				
+			<sha1hash>$sha1hash</sha1hash>
 			</request>";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -850,7 +850,7 @@ class RealexRedirect extends PaymentModule
 	{
 		$url 				= 'https://epage.payandshop.com/epage-remote-plugins.cgi';
 		$pares 				= (string)Tools::getValue('PaRes');
-		$merchantid 		= $this->merchant_id;		
+		$merchantid 		= $this->merchant_id;
 		$md64 				= base64_decode(Tools::getValue('MD'));
 		$blow 				= new BlowfishCore($this->shared_secret, $this->shared_secret);
 		$decrypt 			= $blow->decrypt($md64);
@@ -881,11 +881,11 @@ class RealexRedirect extends PaymentModule
 				<account>$account</account>
 				<orderid>$orderid</orderid>
 				<amount currency='$currency'>$amount</amount>
-				<card> 
+				<card>
 					<number></number>
 					<expdate></expdate>
-					<type></type> 
-					<chname></chname> 
+					<type></type>
+					<chname></chname>
 				</card>
 				<payerref>$payerref</payerref>
 				<paymentmethod>$paymentmethod</paymentmethod>
@@ -1086,51 +1086,51 @@ class RealexRedirect extends PaymentModule
 				<table cellpadding="4" cellspacing="0" align="center" border="0" id="mainBody" style="display: '';">
 					<tr>
 						<td>
-							<table border="0" cellspacing="1" cellpadding="1">		
+							<table border="0" cellspacing="1" cellpadding="1">
 								<tr>
 									<td class="cctd" align="center">
-										<?php echo $this->l('The total amount due is')?> <?php echo $xm_dcc->dccinfo->merchantcurrency?> <?php echo (float)($xm_dcc->dccinfo->merchantamount / 100)?><br><br>										
+										<?php echo $this->l('The total amount due is')?> <?php echo $xm_dcc->dccinfo->merchantcurrency?> <?php echo (float)($xm_dcc->dccinfo->merchantamount / 100)?><br><br>
 										<?php echo $this->l('We notice that you have an')?> <?php echo $xm_dcc->dccinfo->cardholdercurrency?> <?php echo $this->l('card')?>. <br>
 										<?php echo $this->l('For your convenience we can charge this to you as')?> <br>
 										<?php echo $xm_dcc->dccinfo->cardholdercurrency?> <?php echo (float)($xm_dcc->dccinfo->cardholderamount / 100)?> <i>(<?php echo $this->l('transaction currency')?>)</i> <br><br>
-										(<?php echo $this->l('Exchange rate used')?>: 1 
-										<?php echo $xm_dcc->dccinfo->merchantcurrency?> = 
+										(<?php echo $this->l('Exchange rate used')?>: 1
+										<?php echo $xm_dcc->dccinfo->merchantcurrency?> =
 										<?php echo $xm_dcc->dccinfo->cardholderrate?> <?php echo $xm_dcc->dccinfo->cardholdercurrency?>)
 										<br><br>
 									</td>
-								</tr>		
+								</tr>
 								<tr>
 									<td class="cctd" align="center">
 										<input type="submit" name="DCCCHOICE_yes" value="<?php echo $this->l('YES, Please charge me in')?> <?php echo $xm_dcc->dccinfo->cardholdercurrency?>">
 									</td>
-								</tr>												
+								</tr>
 								<tr>
 									<td class="cctd" align="center">
 										<?php echo $this->l('Exchange Rate based on')?>: <?php echo $xm_dcc->dccinfo->exchangeratesourcename?> Rate<br>
 										<?php echo $this->l('International Conversion Margin')?>: <?php echo $xm_dcc->dccinfo->marginratepercentage?>%<br>
 										<?php echo $this->l('Commission for Currency Conversion')?>: <?php echo $xm_dcc->dccinfo->commissionpercentage?>%<br>
 									</td>
-								</tr>										
+								</tr>
 								<tr>
 									<td class="cctdsmall" align="center">
 										<?php echo $this->l('I understand that I have been offered a choice of currencies for payment.<br>I accept the conversion rate and final amount and that the final selected transaction currency is')?> <?php echo $xm_dcc->dccinfo->cardholdercurrency?>; <br><?php echo $this->l('I understand that my choice is final')?>.
 									</td>
-								</tr>		
+								</tr>
 								<tr>
 									<td class="cctd" align="center">
 										<br><br>
 									</td>
-								</tr>		
+								</tr>
 								<tr>
 									<td class="cctd" align="center">
 										<input class="smallinput" type="submit" name="DCCCHOICE_no" value="<?php echo $this->l('NO,  Please charge me in')?> <?php echo $xm_dcc->dccinfo->merchantcurrency?>">
 									</td>
-								</tr>		
+								</tr>
 								<tr>
 									<td class="cctd" align="center">
 										<br>
 									</td>
-								</tr>							
+								</tr>
 							</table>
 						</td>
 					</tr>
@@ -1183,6 +1183,7 @@ class RealexRedirect extends PaymentModule
 		$dcc_cardholder_amount		= (string)$xm->dcc_cardholder_amount;
 		$dcc_merchant_currency		= (string)$xm->dcc_merchant_currency;
 		$dcc_merchant_amount		= (string)$xm->dcc_merchant_amount;
+                $rv_pmt_digits = preg_replace("/[0-9]/",'x',$rv_pmt_digits,6) ;
 		// ---------------- CREATION PANIER
 		$id_cart 			= explode('-', $orderid);
 		$cart 				= new Cart($id_cart[0]);
@@ -1271,7 +1272,7 @@ class RealexRedirect extends PaymentModule
 				else
 					$retour_msg .= "RealVault: No \r\n";
 			}
-			Configuration::updateValue('REALEX_REDIRECT_CONFIGURATION_OK', true);
+			Configuration::updateValue('REALEXREDIRECT_CONFIGURATION_OK', true);
 			$this->validateOrder($cart->id, Configuration::get('PS_OS_PAYMENT'), $total, $this->displayName, $retour_msg, null, (int)$cart->id_currency, false, $customer->secure_key);
 		}
 		// ---------------- PAYMENT PB
@@ -1293,25 +1294,29 @@ class RealexRedirect extends PaymentModule
 				<body>
 					<center>
 						<table border="0" width="100%" style="margin:auto; border: 1px solid #FFA51F" cellpadding="10" cellspacing="10">
-							<tr>
-								<td align="center">									
-									<img src="'.$shop_domain.'/img/logo.jpg" />
-								</td>			
-							</tr>
 							<tr style="border: 1px solid #FFA51F">
 								<td align="center">
 									<strong>'.$msg.'</strong>
-								</td>			
-							</tr>
-							<tr>
-								<td align="center">
-									'.$this->l('Click').' <a href="'.$controller_link.'">'.$this->l('here').'</a> '.htmlentities($this->l('to come back to the merchant site')).'
 								</td>
 							</tr>
-						</table>
-					</center>
-				</body>
-			</html>';
+							<tr>
+                        ';
+                        if ($result != '00' || $failed){
+                            echo '<td align="center">
+									'.$this->l('Please click').' <a href="'.$controller_link.'">'.$this->l('here').'</a> '.htmlentities($this->l('to return to the checkout and try again.')).'
+								</td>';
+                        }
+                        else{
+                            echo '<td align="center">
+									'.$this->l('Please click').' <a href="'.$controller_link.'">'.$this->l('here').'</a> '.htmlentities($this->l('to complete your order.')).'
+								</td>';
+                        }
+			echo'					
+                            </tr>
+                            </table>
+                            </center>
+                            </body>
+                            </html>';
 			exit;
 		}
 	}

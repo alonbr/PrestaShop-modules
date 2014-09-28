@@ -35,10 +35,10 @@ class Town
 		try
 		{
 			$sc_options = array(
-				"connection_timeout" => 30 
+				'connection_timeout' => 30
 			);
 
-			$soap_client = new SoapClient((string)Configuration::get("SEUR_URLWS_SP"), $sc_options);
+			$soap_client = new SoapClient((string)Configuration::get('SEUR_URLWS_SP'), $sc_options);
 
 			$data = array(
 				'in0' => '',
@@ -46,8 +46,8 @@ class Town
 				'in2' => $postal_code,
 				'in3' => '',
 				'in4' => '',
-				'in5' => SEUR_WS_USERNAME,
-				'in6' => SEUR_WS_PASSWORD
+				'in5' => Configuration::get('SEUR_WS_USERNAME'),
+				'in6' => Configuration::get('SEUR_WS_PASSWORD')
 			);
 
 			$response = $soap_client->infoPoblacionesCortoStr($data);
@@ -64,6 +64,6 @@ class Town
 		catch (PrestaShopException $e)
 		{
 			$e->displayMessage();
-		} 
+		}
 	}
 }

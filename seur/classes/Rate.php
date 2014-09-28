@@ -48,14 +48,14 @@ class Rate
 			}
 
 			$sc_options = array(
-				"connection_timeout" => 30 
+				'connection_timeout' => 30
 			);
 
 			$soap_client = new SoapClient((string)Configuration::get('SEUR_URLWS_SP'), $sc_options);
 
 			$plano = '<REG>
-				<USUARIO>'.SEUR_WS_USERNAME.'</USUARIO>
-				<PASSWORD>'.SEUR_WS_PASSWORD.'</PASSWORD>
+				<USUARIO>'.Configuration::get('SEUR_WS_USERNAME').'</USUARIO>
+				<PASSWORD>'.Configuration::get('SEUR_WS_PASSWORD').'</PASSWORD>
 				<NOM_POBLA_DEST>'.pSQL($order_data['town']).'</NOM_POBLA_DEST>
 				<Peso>'.pSQL($order_data['peso']).'</Peso>
 				<CODIGO_POSTAL_DEST>'.pSQL($order_data['post_code']).'</CODIGO_POSTAL_DEST>
@@ -76,7 +76,7 @@ class Rate
 			$data = array('in0' => $plano);
 			$response = $soap_client->tarificacionPrivadaStr($data);
 
-			if(empty($response->out) || (isset($response->error) && !empty($response->error)))
+			if (empty($response->out) || (isset($response->error) && !empty($response->error)))
 				return false;
 			else
 			{
@@ -89,6 +89,6 @@ class Rate
 		catch (PrestaShopException $e)
 		{
 			$e->displayMessage();
-		} 
+		}
 	}
 }

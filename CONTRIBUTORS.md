@@ -1,11 +1,14 @@
+- 2FR3 
 - Adyen 
 - Agustin 
 - Albin Kerouanton 
 - Aleksander Palyan 
 - Alexander Wesselburg 
 - Alexandre Segura 
+- alonbr 
 - Alon Braitstein 
 - antoniofr 
+- apaqui 
 - arossetti 
 - Axome 
 - baptgauthier 
@@ -14,12 +17,14 @@
 - BrandonTaylor 
 - Bruno Leveque 
 - bunsenstraat 
+- cartman 
 - Ceboweb 
 - cedricfontaine 
 - CINS 
 - clément hollander 
 - Claude Traglia 
 - Claudio Mulas 
+- clement 
 - clement-hollander 
 - cmouleyre 
 - Damien Metzger 
@@ -44,6 +49,7 @@
 - Francois Gaillard 
 - Giedrius Stan 
 - Gordon Coubrough 
+- GreenItaliaWeb.it 
 - Gregory Roussac 
 - gRoussac 
 - GuigZ 
@@ -54,7 +60,9 @@
 - Ibrahim Ibn Dawood 
 - IceEyz 
 - indesign47 
+- ironwo0d 
 - IsabelleCoccinet 
+- jcriadop 
 - J. Danse 
 - jeromenadaud 
 - Jerome Nadaud 
@@ -72,6 +80,7 @@
 - Lesley Paone 
 - lsparer 
 - Ludovic 
+- Ludovic Verrecchia 
 - Luigi Massa 
 - luisalb 
 - Mathieu 
@@ -85,7 +94,9 @@
 - philong 
 - prestachris 
 - PrestaEdit 
+- prestamodule 
 - PrestanceDesign 
+- Quadra Informatique 
 - quadrateam 
 - Quadra Team 
 - Quetzacoalt91 
@@ -96,8 +107,10 @@
 - Robert 
 - samy-r 
 - seanmacdomhnall 
+- Shamunr 
 - sjousse 
 - Sparer lilian 
+- Sven Weber 
 - Talha Umer Syed 
 - Thibaud Chauviere 
 - Thoma 

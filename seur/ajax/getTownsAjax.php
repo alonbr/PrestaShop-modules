@@ -42,13 +42,13 @@ if ($token != $admin_token)
 try
 {
 	$sc_options = array(
-		"connection_timeout" => 30 
+		'connection_timeout' => 30
 	);
-	
+
 	$postcode = Tools::getValue('post_code');
 	if (!Validate::isPostCode($postcode))
 		return false;
-	
+
 	$soap_client = new SoapClient((string)Configuration::get('SEUR_URLWS_SP'), $sc_options);
 	$data = array(
 		'in0' => '',
@@ -56,8 +56,8 @@ try
 		'in2' => $postcode,
 		'in3' => '',
 		'in4' => '',
-		'in5' => SEUR_WS_USERNAME,
-		'in6' => SEUR_WS_PASSWORD
+		'in5' => Configuration::get('SEUR_WS_USERNAME'),
+		'in6' => Configuration::get('SEUR_WS_PASSWORD')
 	);
 
 	$response = $soap_client->infoPoblacionesCortoStr($data);
@@ -84,7 +84,7 @@ try
 		$towns['state'] = utf8_decode((string)$xml->REG1->NOM_PROVINCIA);
 		$towns['iso'] = (string)$xml->REG1->COD_PAIS_ISO;
 		$towns['franchise'] = (string)$xml->REG1->COD_UNIDAD_ADMIN;
-		
+
 		echo Tools::jsonEncode($towns);
 	}
 }
